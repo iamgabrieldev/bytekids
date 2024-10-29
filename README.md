@@ -10,7 +10,7 @@
 - **RF6**: O sistema deve permitir o cadastro de usuários (professores) pelo superusuário.
 - **RF7**: O sistema deve permitir o login do usuário com suas credenciais (e-mail e senha).
 - **RF8**: O sistema deve permitir a troca de senha pelo professor.
-- **RF9**: O sistema deve permitir a desativação do login do professor.
+- **RF9**: O sistema deve permitir a desativação do professor.
 
 ## Arquitetura de Alto Nível do Sistema
 <img width="405" alt="image" src="https://github.com/user-attachments/assets/bdecd5fd-f18f-4187-95fa-c86885476d63">
