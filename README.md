@@ -27,7 +27,7 @@
 | Requisito | Método | Entrada                                      | Saída                         |
 |-----------|--------|----------------------------------------------|-------------------------------|
 | **RF1**   | POST   | ID do aluno, Data e hora                     | Código 201 – Created          |
-| **RF2**   | GET    | ID da turma                                  | Lista de alunos com presença  |
+| **RF2**   | GET    | ID da turma                                  | Lista de alunos X presença  |
 | **RF3**   | PUT    | ID da presença                               | Código 204 – Sucesso          |
 | **RF4**   | POST   | Nome, Data de nascimento, E-mail, Telefone, Nome da mãe | Código 201 – Created  |
 | **RF5**   | DELETE | ID do aluno                                  | Código 204 – Sucesso          |
