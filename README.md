@@ -1,5 +1,7 @@
 # ByteKids
 
+**ByteKids** é um sistema desenvolvido para o projeto de extensão **ELLP**, destinado a apoiar atividades educacionais e de capacitação para crianças e adolescentes. O objetivo principal do ByteKids é gerenciar a participação de alunos e professores em workshops e eventos de aprendizado, facilitando o processo de inscrição, controle de presença e emissão de certificados de participação.
+
 ## Definição de Requisitos Funcionais
 
 - **RF1**: O sistema deve permitir que novos professores sejam cadastrados com dados básicos, como nome, e-mail e CPF.
