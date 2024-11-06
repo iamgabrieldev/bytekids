@@ -23,16 +23,6 @@
 
 ### Critérios de Entrada e Saída dos Requisitos
 
-| Requisito | Método | Entrada                                                        | Saída                             |
-|-----------|--------|----------------------------------------------------------------|-----------------------------------|
-| **RF1**   | POST   | Nome do professor, E-mail, CPF                                 | Código 201 – Created              |
-| **RF2**   | POST   | Nome de usuário, Senha                                         | Código 200 – OK / Código 401 – Unauthorized |
-| **RF3**   | POST   | Nome do aluno, Data de nascimento, E-mail, Telefone            | Código 201 – Created              |
-| **RF4**   | POST   | Título do workshop, Data, Duração, Instrutor responsável       | Código 201 – Created              |
-| **RF5**   | POST   | ID do aluno, ID do workshop, Data e hora da presença           | Código 201 – Created              |
-| **RF6**   | GET    | ID do workshop, ID do aluno                                    | Frequência do aluno e status do certificado |
-| **RF6**   | POST   | ID do aluno, ID do workshop                                    | Código 201 – Certificado emitido           |
-
 
 ## Tecnologias Utilizadas
 
