@@ -12,21 +12,18 @@
 - **RF6**: O sistema deve possibilitar a visualização da frequência dos alunos em workshops e gerar certificados de participação para aqueles que atendam aos requisitos de presença.
 
 ## Arquitetura de Alto Nível do Sistema
-<img width="405" alt="image" src="https://github.com/user-attachments/assets/bdecd5fd-f18f-4187-95fa-c86885476d63">
+![Arquitetura Oficina 2](https://github.com/user-attachments/assets/3a855b47-e915-49d0-9488-411159cada4d)
 
 ## Estratégia de Automação de Testes
 
 **Objetivo**: Assegurar uma cobertura mínima de 80% para garantir a qualidade do sistema.  
 **Escopo**: Requisitos cobertos pelos testes: RF1, RF2, RF3, RF4, RF5 e RF6.  
-**Ferramentas**: JUnit, Mockito, e Jest.  
+**Ferramentas**: JUnit, Banco H2, e Jest.  
 **Técnicas**: Testes unitários e de integração.
-
-### Critérios de Entrada e Saída dos Requisitos
-
 
 ## Tecnologias Utilizadas
 
 - **Backend**: Java, Spring Boot
 - **Frontend**: Angular, TypeScript
 - **Banco de Dados**: PostgreSQL
-- **Testes**: JUnit, Mockito, Jest
+- **Testes**: JUnit, H2, Jest
