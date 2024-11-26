@@ -1,17 +1,19 @@
+# Banco de dados PostgreSQL
 spring:
   profiles:
     active: dev
-
----
-spring:
-  config:
-    activate:
-      on-profile: dev
   datasource:
-    url: jdbc:postgresql://localhost:5432/sua_base_de_dados
-    username: seu_usuario
-    password: sua_senha
+    jdbc-url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 1234
     driver-class-name: org.postgresql.Driver
+    hikari:
+      pool-name: MeuHikariPool
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 20000
   jpa:
     hibernate:
       ddl-auto: update
@@ -19,8 +21,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-# Banco de dados em memória para testes
 ---
+# Banco de dados em memória para testes
 spring:
   config:
     activate:
