@@ -2,7 +2,6 @@ package com.utfpr.bytekids.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 @Entity
 @Data
 public class Professor {
