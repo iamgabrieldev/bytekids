@@ -17,8 +17,12 @@ public class WorkshopService {
     }
 
     public Workshop salvarWorkshop(Workshop workshop) {
+        if(workshopRepository.existsByTurma(workshop.getTurma())) {
+            throw new IllegalArgumentException("Turma já cadastrada.");
+        }
+
         if (!professorRepository.existsById(workshop.getProfessor().getId())) {
-            throw new IllegalArgumentException("Professor não encontrado!");
+            throw new IllegalArgumentException("Professor não encontrado.");
         }
         return workshopRepository.save(workshop);
     }

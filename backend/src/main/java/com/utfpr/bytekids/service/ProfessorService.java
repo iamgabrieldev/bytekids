@@ -14,9 +14,8 @@ public class ProfessorService {
     }
 
     public Professor salvarProfessor(Professor professor) {
-        // Exemplo de validação: verificar se o documento já está cadastrado
         if (professorRepository.existsByDocumento(professor.getDocumento())) {
-            throw new IllegalArgumentException("Documento já cadastrado para outro professor.");
+            throw new IllegalArgumentException("Professor já cadastrado.");
         }
         return professorRepository.save(professor);
     }

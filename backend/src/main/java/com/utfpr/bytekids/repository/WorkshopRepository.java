@@ -4,4 +4,6 @@ import com.utfpr.bytekids.model.Workshop;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface WorkshopRepository extends JpaRepository<Workshop, Long> {
+
+    boolean existsByTurma(String turma);
 }
