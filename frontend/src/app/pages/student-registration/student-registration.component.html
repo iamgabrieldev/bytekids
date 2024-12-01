@@ -15,8 +15,8 @@
           placeholder="Nome:"
         />
         <div class="error-message" *ngIf="name?.invalid && name?.touched">
-          <small *ngIf="name?.errors?.['required']">Name is required.</small>
-          <small *ngIf="name?.errors?.['minlength']">Minimum of 3 characters.</small>
+          <small *ngIf="name?.errors?.['required']">O nome é obrigatório.</small>
+          <small *ngIf="name?.errors?.['minlength']">Minimo de 3 caracteres.</small>
         </div>
       </div>
       <div>
@@ -28,9 +28,9 @@
           placeholder="Documento:"
         />
         <div class="error-message" *ngIf="document?.invalid && document?.touched">
-          <small *ngIf="document?.errors?.['required']">Document is required.</small>
-          <small *ngIf="document?.errors?.['minlength']">Minimum of 5 characters.</small>
-          <small *ngIf="document?.errors?.['maxlength']">Maximum of 20 characters.</small>
+          <small *ngIf="document?.errors?.['required']">O cpf é obrigatório</small>
+          <small *ngIf="document?.errors?.['minlength']">Minimo de 5 caracteres.</small>
+          <small *ngIf="document?.errors?.['maxlength']">Maximo de 20 caracteres</small>
         </div>
       </div>
       <div>
@@ -42,10 +42,10 @@
           placeholder="Telefone:"
         />
         <div class="error-message" *ngIf="phone?.invalid && phone?.touched">
-          <small *ngIf="phone?.errors?.['pattern']">Enter a valid phone number.</small>
+          <small *ngIf="phone?.errors?.['pattern']">Entre com um número de telefone válido</small>
         </div>
       </div>
-      <button type="submit" [disabled]="studentForm.invalid">Register</button>
+      <button type="submit" [disabled]="studentForm.invalid">Cadastrar</button>
     </form>
     <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>

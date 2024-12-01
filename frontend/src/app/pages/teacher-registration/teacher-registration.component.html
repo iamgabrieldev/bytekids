@@ -9,16 +9,16 @@
       <div>
         <input id="name" type="text" formControlName="name" [class.invalid]="name?.invalid && name?.touched" placeholder="Nome:"/>
         <div class="error-message" *ngIf="name?.invalid && name?.touched">
-          <small *ngIf="name?.errors?.['required']">Name is required.</small>
-          <small *ngIf="name?.errors?.['minlength']">Minimum of 3 characters.</small>
+          <small *ngIf="name?.errors?.['required']">Nome é obrigatório.</small>
+          <small *ngIf="name?.errors?.['minlength']">Minimo de 3 caracteres</small>
         </div>
       </div>
       <div>
         <input id="document" type="text" formControlName="document" [class.invalid]="document?.invalid && document?.touched" placeholder="CPF:"/>
         <div class="error-message" *ngIf="document?.invalid && document?.touched">
-          <small *ngIf="document?.errors?.['required']">Document is required.</small>
-          <small *ngIf="document?.errors?.['minlength']">Minimum of 5 characters.</small>
-          <small *ngIf="document?.errors?.['maxlength']">Maximum of 20 characters.</small>
+          <small *ngIf="document?.errors?.['required']">CPF obrigatório</small>
+          <small *ngIf="document?.errors?.['minlength']">Minimo de 5 caracteres</small>
+          <small *ngIf="document?.errors?.['maxlength']">Máximo de 20 caracteres</small>
         </div>
       </div>
       <div>
@@ -43,10 +43,8 @@
       </div>
       <button type="submit" [disabled]="teacherForm.invalid">Register</button>
     </form>
-    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
-    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>  
+    <div *ngIf="successMessage" class="success-message">Professor cadastrado com sucesso.</div>
+    <div *ngIf="errorMessage" class="error-message">Erro ao cadastrar professor.</div>  
       <p>Já tem uma conta? <a [routerLink]="['/login']">Faça login</a></p>  
-  </div>
-
-
+    </div>
   </body>

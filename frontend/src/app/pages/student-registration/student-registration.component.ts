@@ -33,17 +33,17 @@ export class StudentRegistrationComponent {
     if (this.studentForm.valid) {
       this.studentService.registerStudent(this.studentForm.value).subscribe({
         next: () => {
-          this.successMessage = 'Student successfully registered!';
+          this.successMessage = 'Estudante cadastrado com sucesso!';
           this.errorMessage = '';
           this.studentForm.reset();
         },
         error: () => {
           this.successMessage = '';
-          this.errorMessage = 'Error registering student. Please try again.';
+          this.errorMessage = 'Error ao registrar estudante, tente novamente!';
         },
       });
     } else {
-      this.errorMessage = 'Please fill out all fields correctly.';
+      this.errorMessage = 'Por favor, preencha os campos corretamente!';
       this.successMessage = '';
     }
   }
