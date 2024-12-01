@@ -26,15 +26,15 @@ describe('StudentRequestService', () => {
 
   it('should map student data correctly and call the API', () => {
     const mockStudentData = {
-      name: 'John Doe',
-      document: '123456789',
+      name: 'Amanda Machado',
+      document: '12345678911',
       phone: '987654321',
     };
 
     const expectedMappedData = {
       id: 0,
-      nome: 'John Doe',
-      documento: '123456789',
+      nome: 'Amanda Machado',
+      documento: '12345678911',
       telefone: '987654321',
       workshop: null,
     };
