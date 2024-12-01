@@ -41,7 +41,7 @@
           <small *ngIf="teacherForm.get('password')?.errors?.['minlength']">Mínimo de 8 caracteres.</small>
         </div>
       </div>
-      <button type="submit" [disabled]="teacherForm.invalid">Register</button>
+      <button type="submit" [disabled]="teacherForm.invalid">Cadastrar</button>
     </form>
     <div *ngIf="successMessage" class="success-message">Professor cadastrado com sucesso.</div>
     <div *ngIf="errorMessage" class="error-message">Erro ao cadastrar professor.</div>  
