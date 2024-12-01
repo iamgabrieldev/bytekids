@@ -1,0 +1,40 @@
+<body class="container">
+  <div class="image-container">
+    <div class="floating-image"></div>
+    <img src="https://cdn.pixabay.com/photo/2023/11/29/12/29/kid-8419485_1280.jpg" alt="Child-friendly illustration" class="floating-image" width="500"/>
+  </div>
+  <div class="registration-container">
+    <h1>ELLP</h1>
+    <h2>Bem-vindo ao mundo da informática!</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div>
+        <input
+          id="username"
+          type="text"
+          placeholder="Digite seu username"
+          formControlName="username"
+          [class.invalid]="username?.invalid && username?.touched"
+        />
+        <div class="error-message" *ngIf="username?.invalid && username?.touched">
+          <small *ngIf="username?.errors?.['required']">O username é obrigatório!</small>
+          <small *ngIf="username?.errors?.['minlength']">Mínimo de 3 letras.</small>
+        </div>
+      </div>
+      <div>
+        <input
+          id="password"
+          type="password"
+          placeholder="Digite sua senha"
+          formControlName="password"
+          [class.invalid]="password?.invalid && password?.touched"
+        />
+        <div class="error-message" *ngIf="password?.invalid && password?.touched">
+          <small *ngIf="password?.errors?.['required']">A senha é obrigatória!</small>
+          <small *ngIf="password?.errors?.['minlength']">Mínimo de 6 letras.</small>
+        </div>
+      </div>
+      <button type="submit" [disabled]="loginForm.invalid">Entrar</button>
+      <p>Não tem uma conta? <a [routerLink]="['/teacher-registration']">Faça seu cadastro</a></p>
+    </form>
+  </div>
+</body>

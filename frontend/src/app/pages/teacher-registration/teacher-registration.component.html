@@ -1,0 +1,52 @@
+<body class="container">
+  <div class="image-container">   
+    <img src="https://cdn.pixabay.com/photo/2023/11/29/12/29/kid-8419485_1280.jpg" alt="Child-friendly illustration" class="floating-image" width="500"/>
+  </div>
+  <div class="registration-container">
+    <h1>ELLP</h1>
+    <h2>Cadastre Professores!</h2>
+    <form [formGroup]="teacherForm" (ngSubmit)="onSubmit()">
+      <div>
+        <input id="name" type="text" formControlName="name" [class.invalid]="name?.invalid && name?.touched" placeholder="Nome:"/>
+        <div class="error-message" *ngIf="name?.invalid && name?.touched">
+          <small *ngIf="name?.errors?.['required']">Name is required.</small>
+          <small *ngIf="name?.errors?.['minlength']">Minimum of 3 characters.</small>
+        </div>
+      </div>
+      <div>
+        <input id="document" type="text" formControlName="document" [class.invalid]="document?.invalid && document?.touched" placeholder="CPF:"/>
+        <div class="error-message" *ngIf="document?.invalid && document?.touched">
+          <small *ngIf="document?.errors?.['required']">Document is required.</small>
+          <small *ngIf="document?.errors?.['minlength']">Minimum of 5 characters.</small>
+          <small *ngIf="document?.errors?.['maxlength']">Maximum of 20 characters.</small>
+        </div>
+      </div>
+      <div>
+        <input id="phone" type="text" formControlName="phone" [class.invalid]="phone?.invalid && phone?.touched" placeholder="Telefone:"/>
+        <div class="error-message" *ngIf="phone?.invalid && phone?.touched">
+          <small *ngIf="phone?.errors?.['pattern']">Enter a valid phone number.</small>
+        </div>
+      </div>
+      <div>
+        <input id="username" type="text" formControlName="username" [class.invalid]="teacherForm.get('username')?.invalid && teacherForm.get('username')?.touched" placeholder="Nome de usuário:"/>
+        <div class="error-message" *ngIf="teacherForm.get('username')?.invalid && teacherForm.get('username')?.touched">
+          <small *ngIf="teacherForm.get('username')?.errors?.['required']">Usuário é obrigatório.</small>
+          <small *ngIf="teacherForm.get('username')?.errors?.['minlength']">Mínimo de 5 caracteres.</small>
+        </div>
+      </div>
+      <div>
+        <input id="password" type="password" formControlName="password" [class.invalid]="teacherForm.get('password')?.invalid && teacherForm.get('password')?.touched" placeholder="Senha:"/>
+        <div class="error-message" *ngIf="teacherForm.get('password')?.invalid && teacherForm.get('password')?.touched">
+          <small *ngIf="teacherForm.get('password')?.errors?.['required']">Senha é obrigatória.</small>
+          <small *ngIf="teacherForm.get('password')?.errors?.['minlength']">Mínimo de 8 caracteres.</small>
+        </div>
+      </div>
+      <button type="submit" [disabled]="teacherForm.invalid">Register</button>
+    </form>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>  
+      <p>Já tem uma conta? <a [routerLink]="['/login']">Faça login</a></p>  
+  </div>
+
+
+  </body>
