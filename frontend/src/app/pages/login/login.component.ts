@@ -38,10 +38,11 @@ export class LoginComponent {
           if(response === 'Autenticação bem-sucedida!'){
             alert('Autenticação bem-sucedida!')
             this.router.navigate(['/student-registration']); 
-          } else {
-            alert("Usuário ou senha inválidos.")
           }
-        }
+        },
+        error: () => {
+          alert("Usuário ou senha inválidos.")
+        },
       });
     } else {
       alert('Por favor, preencha todos os campos corretamente!');

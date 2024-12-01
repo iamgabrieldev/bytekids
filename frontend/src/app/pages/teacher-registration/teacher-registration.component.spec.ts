@@ -1,116 +1,141 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
 import { TeacherRegistrationComponent } from './teacher-registration.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TeacherRequestService } from '../../services/requests/teacher-request.service';
 import { AuthenticatorService } from '../../services/authenticator.service';
+import { Router, RouterModule } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
+
+class MockTeacherRequestService {
+  registerTeacher = jest.fn();
+}
+
+class MockAuthenticatorService {
+  registerLogin = jest.fn();
+}
 
 describe('TeacherRegistrationComponent', () => {
   let component: TeacherRegistrationComponent;
   let fixture: ComponentFixture<TeacherRegistrationComponent>;
-  let teacherService: TeacherRequestService;
-  let authService: AuthenticatorService;
+  let teacherService: MockTeacherRequestService;
+  let authService: MockAuthenticatorService;
   let router: Router;
 
-  beforeEach(() => {
-    const teacherServiceMock = {
-      registerTeacher: jest.fn(),
-    };
+  beforeEach(async () => {
+    teacherService = new MockTeacherRequestService();
+    authService = new MockAuthenticatorService();
 
-    const authServiceMock = {
-      registerLogin: jest.fn(),
-    };
-
-    TestBed.configureTestingModule({
-      declarations: [TeacherRegistrationComponent],
-      imports: [ReactiveFormsModule, RouterTestingModule],
+    await TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        FormsModule,
+        RouterTestingModule,
+        TeacherRegistrationComponent
+      ],
       providers: [
-        FormBuilder,
-        { provide: TeacherRequestService, useValue: teacherServiceMock },
-        { provide: AuthenticatorService, useValue: authServiceMock },
+        { provide: TeacherRequestService, useValue: teacherService },
+        { provide: AuthenticatorService, useValue: authService },
       ],
     }).compileComponents();
+  });
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(TeacherRegistrationComponent);
     component = fixture.componentInstance;
-    teacherService = TestBed.inject(TeacherRequestService);
-    authService = TestBed.inject(AuthenticatorService);
     router = TestBed.inject(Router);
-
     fixture.detectChanges();
   });
 
-  it('should create the component', () => {
+  // Teste para verificar se o componente foi criado
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call registerTeacher and registerLogin on form submit', () => {
-    const teacherData = { name: 'John Doe', document: '123456', phone: '987654321' };
-    const loginData = { username: 'johndoe', password: 'password123' };
-    const response = { id: 1 };
+  // Teste para verificar a criação do formulário
+  it('should create a form with 5 controls', () => {
+    expect(component.teacherForm.contains('name')).toBe(true);
+    expect(component.teacherForm.contains('document')).toBe(true);
+    expect(component.teacherForm.contains('phone')).toBe(true);
+    expect(component.teacherForm.contains('username')).toBe(true);
+    expect(component.teacherForm.contains('password')).toBe(true);
+  });
+
+  // Teste para a validação do campo 'name'
+  it('should mark name as invalid if less than 3 characters', () => {
+    const name = component.teacherForm.get('name');
+    name?.setValue('Wi');
+    expect(name?.invalid).toBe(true);
+  });
+
+  it('should mark name as valid if it has 3 or more characters', () => {
+    const name = component.teacherForm.get('name');
+    name?.setValue('William');
+    expect(name?.valid).toBe(true);
+  });
+
+  // Teste para a validação do campo 'document'
+  it('should mark document as invalid if less than 5 characters', () => {
+    const document = component.teacherForm.get('document');
+    document?.setValue('123');
+    expect(document?.invalid).toBe(true);
+  });
+
+  it('should mark document as valid if it has 5 or more characters', () => {
+    const document = component.teacherForm.get('document');
+    document?.setValue('12345');
+    expect(document?.valid).toBe(true);
+  });
+
+  // Teste para o método 'onSubmit' com sucesso no cadastro do professor
+  it('should call registerTeacher and registerLogin and navigate to student-registration', () => {
+    const mockTeacher = { name: 'William', document: '12345', phone: '' };
+    const mockLogin = { username: 'wwatanabe', password: 'password123' };
+    const mockResponse = { id: 1 };
 
     component.teacherForm.setValue({
-      name: teacherData.name,
-      document: teacherData.document,
-      phone: teacherData.phone,
-      username: loginData.username,
-      password: loginData.password,
+      name: 'William',
+      document: '12345',
+      phone: '',
+      username: 'wwatanabe',
+      password: 'password123',
     });
 
-    // Mocking HTTP requests
-    jest.spyOn(teacherService, 'registerTeacher').mockReturnValue(of(response));
-    jest.spyOn(authService, 'registerLogin').mockReturnValue(of({}));
+    teacherService.registerTeacher.mockReturnValue(of(mockResponse));
+    authService.registerLogin.mockReturnValue(of({}));
 
-    // Mocking router navigation
+    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
     const navigateSpy = jest.spyOn(router, 'navigate');
 
     component.onSubmit();
 
-    expect(teacherService.registerTeacher).toHaveBeenCalledWith(teacherData);
+    expect(teacherService.registerTeacher).toHaveBeenCalledWith(mockTeacher);
     expect(authService.registerLogin).toHaveBeenCalledWith({
-      ...loginData,
-      professorId: response.id,
+      ...mockLogin,
+      professorId: mockResponse.id,
     });
+    expect(alertSpy).toHaveBeenCalledWith('Professor e login cadastrados com sucesso!');
     expect(navigateSpy).toHaveBeenCalledWith(['/student-registration']);
   });
 
-  it('should handle error when registerTeacher fails', () => {
-    const teacherData = { name: 'John Doe', document: '123456', phone: '987654321' };
+ 
+
+  // Teste para o método 'onSubmit' com erro no cadastro do login do professor
+  it('should display an error message if registerLogin fails', () => {
+    const mockTeacher = { name: 'William', document: '12345', phone: '' };
+    const mockLogin = { username: 'wwatanabe', password: 'password123' };
+    const mockResponse = { id: 1 };
 
     component.teacherForm.setValue({
-      name: teacherData.name,
-      document: teacherData.document,
-      phone: teacherData.phone,
-      username: 'johndoe',
+      name: 'William',
+      document: '12345',
+      phone: '',
+      username: 'wwatanabe',
       password: 'password123',
     });
 
-    jest.spyOn(teacherService, 'registerTeacher').mockReturnValue(throwError(() => new Error('Erro ao cadastrar professor.')));
-
-    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
-
-    component.onSubmit();
-
-    expect(alertSpy).toHaveBeenCalledWith('Erro ao cadastrar professor.');
-  });
-
-  it('should handle error when registerLogin fails', () => {
-    const teacherData = { name: 'John Doe', document: '123456', phone: '987654321' };
-    const loginData = { username: 'johndoe', password: 'password123' };
-    const response = { id: 1 };
-
-    component.teacherForm.setValue({
-      name: teacherData.name,
-      document: teacherData.document,
-      phone: teacherData.phone,
-      username: loginData.username,
-      password: loginData.password,
-    });
-
-    jest.spyOn(teacherService, 'registerTeacher').mockReturnValue(of(response));
-    jest.spyOn(authService, 'registerLogin').mockReturnValue(throwError(() => new Error('Erro ao cadastrar login do professor.')));
+    teacherService.registerTeacher.mockReturnValue(of(mockResponse));
+    authService.registerLogin.mockReturnValue(throwError(() => new Error('Erro ao cadastrar login do professor')));
 
     const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
 
@@ -119,15 +144,31 @@ describe('TeacherRegistrationComponent', () => {
     expect(alertSpy).toHaveBeenCalledWith('Erro ao cadastrar login do professor.');
   });
 
-  it('should display form validation errors', () => {
-    const nameInput = component.teacherForm.controls['name'];
-    const documentInput = component.teacherForm.controls['document'];
+  // Teste para o método 'onSubmit' com erro no cadastro do professor
+  it('should display an error message if registerTeacher fails', () => {
+    const mockTeacher = { name: 'John', document: '12345', phone: '', username: 'wwatanabe', password: '12345678' };
+    component.teacherForm.setValue(mockTeacher);
 
-    nameInput.setValue('');
-    documentInput.setValue('');
+    teacherService.registerTeacher.mockReturnValue(throwError(() => ({ status: 500, error: { message: "Professor já cadastrado." } })));
 
-    expect(nameInput.valid).toBeFalsy();
-    expect(documentInput.valid).toBeFalsy();
-    expect(component.teacherForm.valid).toBeFalsy();
+    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+    component.onSubmit();
+
+    expect(alertSpy).toHaveBeenCalledWith('Este professor já está cadastrado.');
+  });
+
+  // Teste para o método 'onSubmit' com erro no cadastro do professor sem ser erro de já estar cadastrado
+  it('should display an error message if registerTeacher fails except it is not signed up', () => {
+    const mockTeacher = { name: 'John', document: '12345', phone: '', username: 'wwatanabe', password: '12345678' };
+    component.teacherForm.setValue(mockTeacher);
+
+    teacherService.registerTeacher.mockReturnValue(throwError(() => ({ status: 400, error: { message: "Erro ao cadastrar professor. Tente novamente." } })));
+
+    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+    component.onSubmit();
+
+    expect(alertSpy).toHaveBeenCalledWith('Erro ao cadastrar professor. Tente novamente.');
   });
 });

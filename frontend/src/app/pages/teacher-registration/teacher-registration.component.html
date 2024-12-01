@@ -43,8 +43,6 @@
       </div>
       <button type="submit" [disabled]="teacherForm.invalid">Cadastrar</button>
     </form>
-    <div *ngIf="successMessage" class="success-message">Professor cadastrado com sucesso.</div>
-    <div *ngIf="errorMessage" class="error-message">Erro ao cadastrar professor.</div>  
     <p>Já tem uma conta? <a [routerLink]="['/login']">Faça login</a></p>  
     </div>
   </body>

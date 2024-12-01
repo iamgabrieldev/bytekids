@@ -8,8 +8,12 @@ module.exports = {
     collectCoverageFrom: [
       'src/**/*.ts',
       '!src/**/*.spec.ts', 
-      '!src/main.ts',
+      '!src/main*',
       '!src/environments/**',
+      '!src/app/app.config*',
+      '!src/app/app.component*',
+      '!src/app/app.routes*',
+      '!src/app/pages/home/home*',
     ],
   };
   

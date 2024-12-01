@@ -18,8 +18,6 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class TeacherRegistrationComponent {
   teacherForm: FormGroup;
-  successMessage = '';
-  errorMessage = '';
 
   constructor(
     private fb: FormBuilder, 
@@ -67,8 +65,12 @@ export class TeacherRegistrationComponent {
           },
         });
       },
-      error: () => {
-        alert('Erro ao cadastrar professor.');
+      error: (err) => {
+        if (err.status === 500 && err.error && err.error.message === "Professor já cadastrado.") {
+          alert('Este professor já está cadastrado.');
+        } else {
+          alert('Erro ao cadastrar professor. Tente novamente.');
+        }
       },
     });
   }

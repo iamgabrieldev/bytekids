@@ -17,8 +17,6 @@ import { RouterModule } from '@angular/router';
 })
 export class StudentRegistrationComponent {
   studentForm: FormGroup;
-  successMessage = '';
-  errorMessage = '';
 
   constructor(private fb: FormBuilder, private studentService: StudentRequestService) {
     this.studentForm = this.fb.group({
@@ -33,18 +31,15 @@ export class StudentRegistrationComponent {
     if (this.studentForm.valid) {
       this.studentService.registerStudent(this.studentForm.value).subscribe({
         next: () => {
-          this.successMessage = 'Estudante cadastrado com sucesso!';
-          this.errorMessage = '';
+          alert('Estudante cadastrado com sucesso!');
           this.studentForm.reset();
         },
         error: () => {
-          this.successMessage = '';
-          this.errorMessage = 'Error ao registrar estudante, tente novamente!';
+          alert('Error ao registrar estudante, tente novamente!');
         },
       });
     } else {
-      this.errorMessage = 'Por favor, preencha os campos corretamente!';
-      this.successMessage = '';
+      alert('Por favor, preencha os campos corretamente!');
     }
   }
 

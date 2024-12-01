@@ -1,69 +1,126 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { StudentRegistrationComponent } from './student-registration.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { of, throwError } from 'rxjs';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { StudentRequestService } from '../../services/requests/student-request.service';
-import { HttpClientModule } from '@angular/common/http';
+import { of, throwError } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+
+// Mock do serviço StudentRequestService
+class MockStudentRequestService {
+  registerStudent = jest.fn();
+}
 
 describe('StudentRegistrationComponent', () => {
-  let component: StudentRegistrationComponent;
-  let fixture: ComponentFixture<StudentRegistrationComponent>;
-  let studentService: StudentRequestService;
+    let component: StudentRegistrationComponent;
+    let fixture: ComponentFixture<StudentRegistrationComponent>;
+    let studentService: MockStudentRequestService;
+  
+    beforeEach(async () => {
+      studentService = new MockStudentRequestService();
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, HttpClientModule, StudentRegistrationComponent],
-      providers: [StudentRequestService],
-    }).compileComponents();
+      // Criar o mock do ActivatedRoute
+    const activatedRouteMock = {
+        snapshot: {
+          paramMap: of({}) // Retorna um objeto vazio ou mock de parâmetros que você pode querer testar
+        }
+      };
+  
+      await TestBed.configureTestingModule({
+        imports: [
+            ReactiveFormsModule,
+            FormsModule,
+            StudentRegistrationComponent, // Agora importado em vez de declarado
+          ],
+        providers: [
+          { provide: StudentRequestService, useValue: studentService },
+          { provide: ActivatedRoute, useValue: activatedRouteMock },
+        ],
+      }).compileComponents();
+    });
+  
+    beforeEach(() => {
+      fixture = TestBed.createComponent(StudentRegistrationComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+  
+    // Teste para verificar se o componente foi criado
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+  
+    // Teste para verificar a criação do formulário
+    it('should create a form with 4 controls', () => {
+      expect(component.studentForm.contains('name')).toBe(true);
+      expect(component.studentForm.contains('document')).toBe(true);
+      expect(component.studentForm.contains('phone')).toBe(true);
+      expect(component.studentForm.contains('workshop')).toBe(true);
+    });
+  
+    // Teste para a validação do campo 'name'
+    it('should mark name as invalid if less than 3 characters', () => {
+      const name = component.studentForm.get('name');
+      name?.setValue('Jo');
+      expect(name?.invalid).toBe(true);
+    });
+  
+    it('should mark name as valid if it has 3 or more characters', () => {
+      const name = component.studentForm.get('name');
+      name?.setValue('John');
+      expect(name?.valid).toBe(true);
+    });
+  
+    // Teste para a validação do campo 'document'
+    it('should mark document as invalid if less than 5 characters', () => {
+      const document = component.studentForm.get('document');
+      document?.setValue('123');
+      expect(document?.invalid).toBe(true);
+    });
+  
+    it('should mark document as valid if it has 5 or more characters', () => {
+      const document = component.studentForm.get('document');
+      document?.setValue('12345');
+      expect(document?.valid).toBe(true);
+    });
+  
+    // Teste para o método 'onSubmit' com sucesso
+    it('should call registerStudent and reset form on successful registration', () => {
+      const mockStudent = { name: 'John', document: '12345', phone: '', workshop: null };
+      component.studentForm.setValue(mockStudent);
+  
+      studentService.registerStudent.mockReturnValue(of({}));
+  
+      const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+  
+      component.onSubmit();
+  
+      expect(studentService.registerStudent).toHaveBeenCalledWith(mockStudent);
+      expect(alertSpy).toHaveBeenCalledWith('Estudante cadastrado com sucesso!');
+      expect(component.studentForm.pristine).toBe(true);
+    });
+  
+    // Teste para o método 'onSubmit' com erro
+    it('should display an error message on registration failure', () => {
+      const mockStudent = { name: 'John', document: '12345', phone: '', workshop: null };
+      component.studentForm.setValue(mockStudent);
+  
+      studentService.registerStudent.mockReturnValue(throwError(() => new Error('Error')));
+  
+      const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+  
+      component.onSubmit();
+  
+      expect(studentService.registerStudent).toHaveBeenCalledWith(mockStudent);
+      expect(alertSpy).toHaveBeenCalledWith('Error ao registrar estudante, tente novamente!');
+    });
+  
+    // Teste para o comportamento do formulário inválido
+    it('should show an alert if form is invalid', () => {
+      const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+  
+      component.onSubmit();
+  
+      expect(alertSpy).toHaveBeenCalledWith('Por favor, preencha os campos corretamente!');
+    });
   });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(StudentRegistrationComponent);
-    component = fixture.componentInstance;
-    studentService = TestBed.inject(StudentRequestService);
-    fixture.detectChanges();
-  });
-
-  it('should create the component', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should initialize the form correctly', () => {
-    expect(component.studentForm).toBeDefined();
-    expect(component.studentForm.controls['name']).toBeDefined();
-    expect(component.studentForm.controls['document']).toBeDefined();
-    expect(component.studentForm.controls['phone']).toBeDefined();
-    expect(component.studentForm.controls['workshop']).toBeDefined();
-  });
-
-  it('should display error if form is invalid and submit is triggered', () => {
-    component.studentForm.controls['name'].setValue('');
-    component.studentForm.controls['document'].setValue('');
-    component.onSubmit();
-    expect(component.errorMessage).toBe('Por favor, preencha os campos corretamente!');
-    expect(component.successMessage).toBe('');
-  });
-
-  it('should call registerStudent when form is valid', () => {
-    const registerStudentSpy = jest.spyOn(studentService, 'registerStudent').mockReturnValue(of({}));
-    component.studentForm.controls['name'].setValue('John Doe');
-    component.studentForm.controls['document'].setValue('123456');
-    component.studentForm.controls['phone'].setValue('123456789');
-    component.studentForm.controls['workshop'].setValue('Workshop A');
-    component.onSubmit();
-    expect(registerStudentSpy).toHaveBeenCalled();
-    expect(component.successMessage).toBe('Estudante cadastrado com sucesso!');
-    expect(component.errorMessage).toBe('');
-  });
-
-  it('should display error message if registerStudent fails', () => {
-    const registerStudentSpy = jest.spyOn(studentService, 'registerStudent').mockReturnValue(throwError(() => new Error('Error ao registrar estudante')));
-    component.studentForm.controls['name'].setValue('John Doe');
-    component.studentForm.controls['document'].setValue('123456');
-    component.studentForm.controls['phone'].setValue('123456789');
-    component.studentForm.controls['workshop'].setValue('Workshop A');
-    component.onSubmit();
-    expect(component.successMessage).toBe('');
-    expect(component.errorMessage).toBe('Error ao registrar estudante, tente novamente!');
-  });
-});
+  

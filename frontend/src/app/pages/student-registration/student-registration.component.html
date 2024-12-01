@@ -4,7 +4,7 @@
   </div>
   <div class="registration-container">
     <h1>ELLP</h1>
-    <h2>Cdastro de Estudantes!</h2>
+    <h2>Cadastro de Estudantes</h2>
     <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
       <div>
         <input
@@ -25,10 +25,10 @@
           type="text"
           formControlName="document"
           [class.invalid]="document?.invalid && document?.touched"
-          placeholder="Documento:"
+          placeholder="CPF:"
         />
         <div class="error-message" *ngIf="document?.invalid && document?.touched">
-          <small *ngIf="document?.errors?.['required']">O cpf é obrigatório</small>
+          <small *ngIf="document?.errors?.['required']">O CPF é obrigatório</small>
           <small *ngIf="document?.errors?.['minlength']">Minimo de 5 caracteres.</small>
           <small *ngIf="document?.errors?.['maxlength']">Maximo de 20 caracteres</small>
         </div>
@@ -47,7 +47,6 @@
       </div>
       <button type="submit" [disabled]="studentForm.invalid">Cadastrar</button>
     </form>
-    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
-    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <p>Deseja sair da conta? <a [routerLink]="['/login']">Clique aqui para deslogar.</a></p>
   </div>
 </body>

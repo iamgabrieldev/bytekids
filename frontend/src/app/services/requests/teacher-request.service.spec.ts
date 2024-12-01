@@ -1,32 +1,28 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TeacherRequestService } from './teacher-request.service';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 
 describe('TeacherRequestService', () => {
   let service: TeacherRequestService;
   let httpMock: HttpTestingController;
 
-  // Dados simulados para os testes
   const teacherData = {
-    name: 'John Doe',
+    name: 'William Watanabe',
     document: '123456789',
     phone: '987654321'
   };
 
   const mappedTeacherData = {
     id: 0,
-    nome: 'John Doe',
+    nome: 'William Watanabe',
     documento: '123456789',
     telefone: '987654321',
   };
 
-  // Configuração do TestBed
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule], // Importa o módulo de testes HTTP
-      providers: [TeacherRequestService], // Fornece o serviço que será testado
+      imports: [HttpClientTestingModule],
+      providers: [TeacherRequestService], 
     });
 
     service = TestBed.inject(TeacherRequestService);
