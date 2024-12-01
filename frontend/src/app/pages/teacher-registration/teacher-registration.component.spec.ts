@@ -144,5 +144,31 @@ describe('TeacherRegistrationComponent', () => {
     expect(alertSpy).toHaveBeenCalledWith('Erro ao cadastrar login do professor.');
   });
 
+  // Teste para o método 'onSubmit' com erro no cadastro do professor
+  it('should display an error message if registerTeacher fails', () => {
+    const mockTeacher = { name: 'John', document: '12345', phone: '', username: 'wwatanabe', password: '12345678' };
+    component.teacherForm.setValue(mockTeacher);
 
+    teacherService.registerTeacher.mockReturnValue(throwError(() => ({ status: 500, error: { message: "Professor já cadastrado." } })));
+
+    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+    component.onSubmit();
+
+    expect(alertSpy).toHaveBeenCalledWith('Este professor já está cadastrado.');
+  });
+
+  // Teste para o método 'onSubmit' com erro no cadastro do professor sem ser erro de já estar cadastrado
+  it('should display an error message if registerTeacher fails except it is not signed up', () => {
+    const mockTeacher = { name: 'John', document: '12345', phone: '', username: 'wwatanabe', password: '12345678' };
+    component.teacherForm.setValue(mockTeacher);
+
+    teacherService.registerTeacher.mockReturnValue(throwError(() => ({ status: 400, error: { message: "Erro ao cadastrar professor. Tente novamente." } })));
+
+    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+    component.onSubmit();
+
+    expect(alertSpy).toHaveBeenCalledWith('Erro ao cadastrar professor. Tente novamente.');
+  });
 });
