@@ -1,3 +1,7 @@
+::ng-deep body {
+  margin: 0 !important;
+}
+
 .container {
   margin: 0;
   padding: 0;
@@ -19,7 +23,6 @@
 }
 
 .floating-image {
-  background: url('https://cdn.pixabay.com/photo/2023/11/29/12/29/kid-8419485_1280.jpg');
   animation: float 3s infinite ease-in-out;
 }
 
@@ -45,7 +48,6 @@
 }
 
 h1 {
-  //color: #007BCC;
   color: #F68D2E;
   font-size: 50pt;
 
@@ -54,7 +56,6 @@ h1 {
 h2 {
   font-size: 2rem;
   color: #F68D2E;
- // margin-bottom: 20px;
 }
 
 form {
