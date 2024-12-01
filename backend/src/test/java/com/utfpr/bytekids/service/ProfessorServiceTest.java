@@ -1,6 +1,7 @@
+package com.utfpr.bytekids.service;
+
 import com.utfpr.bytekids.model.Professor;
 import com.utfpr.bytekids.repository.ProfessorRepository;
-import com.utfpr.bytekids.service.ProfessorService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
