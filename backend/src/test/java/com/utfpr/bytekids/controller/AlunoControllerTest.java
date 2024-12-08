@@ -54,4 +54,12 @@ class AlunoControllerTest {
                 .andExpect(jsonPath("$.telefone").value("169999999999"));
     }
 
+    @Test
+    @DisplayName("Deveria devolver código HTTP 400 ao tentar cadastrar aluno com dados inválidos")
+    void cadastrarAluno_DeveriaRetornar400_QuandoDadosInvalidos() throws Exception {
+        mvc.perform(post("/api/alunos/cadastrar")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
 }

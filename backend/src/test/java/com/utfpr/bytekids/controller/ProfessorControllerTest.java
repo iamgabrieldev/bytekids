@@ -54,4 +54,12 @@ class ProfessorControllerTest {
                 .andExpect(jsonPath("$.telefone").value("119999999999"));
     }
 
+    @Test
+    @DisplayName("Deveria devolver código HTTP 400 ao tentar cadastrar professor com dados inválidos")
+    void cadastrarProfessor_DeveriaRetornar400_QuandoDadosInvalidos() throws Exception {
+        mvc.perform(post("/api/professores/cadastrar")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
 }

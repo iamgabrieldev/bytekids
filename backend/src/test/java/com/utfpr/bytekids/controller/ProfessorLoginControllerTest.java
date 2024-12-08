@@ -56,4 +56,13 @@ class ProfessorLoginControllerTest {
                 .andExpect(content().string("Autenticação bem-sucedida!"));
     }
 
+    @Test
+    @DisplayName("Deveria devolver código HTTP 400 ao tentar cadastrar login do professor com dados inválidos")
+    void cadastrarProfessor_DeveriaRetornar400_QuandoDadosInvalidos() throws Exception {
+        mvc.perform(post("/api/login/cadastrar")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+
 }
