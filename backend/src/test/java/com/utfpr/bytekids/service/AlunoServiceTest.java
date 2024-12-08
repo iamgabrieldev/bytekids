@@ -1,6 +1,7 @@
+package com.utfpr.bytekids.service;
+
 import com.utfpr.bytekids.model.Aluno;
 import com.utfpr.bytekids.repository.AlunoRepository;
-import com.utfpr.bytekids.service.AlunoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

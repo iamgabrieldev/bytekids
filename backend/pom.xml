@@ -98,6 +98,44 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.10</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<excludes>
+								<exclude>com/utfpr/bytekids/model/**</exclude>
+								<exclude>com/utfpr/bytekids/service/Workshop*</exclude>
+								<exclude>com/utfpr/bytekids/controller/Workshop*</exclude>
+								<exclude>com/utfpr/bytekids/repository/**</exclude>
+								<exclude>com/utfpr/bytekids/config/**</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<excludes>
+								<exclude>com/utfpr/bytekids/model/**</exclude>
+								<exclude>com/utfpr/bytekids/service/Workshop*</exclude>
+								<exclude>com/utfpr/bytekids/controller/Workshop*</exclude>
+								<exclude>com/utfpr/bytekids/repository/**</exclude>
+								<exclude>com/utfpr/bytekids/config/**</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
