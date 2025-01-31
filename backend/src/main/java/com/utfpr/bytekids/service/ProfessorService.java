@@ -1,8 +1,11 @@
 package com.utfpr.bytekids.service;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.utfpr.bytekids.model.Professor;
 import com.utfpr.bytekids.repository.ProfessorRepository;
-import org.springframework.stereotype.Service;
 
 @Service
 public class ProfessorService {
@@ -19,4 +22,9 @@ public class ProfessorService {
         }
         return professorRepository.save(professor);
     }
+
+    public List<Professor> listarProfessores() {
+        return professorRepository.findAll();
+    }
+
 }

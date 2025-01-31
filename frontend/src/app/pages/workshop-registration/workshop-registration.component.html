@@ -1,0 +1,36 @@
+<body class="container">
+    <div class="image-container">   
+      <img src="https://cdn.pixabay.com/photo/2023/11/29/12/29/kid-8419485_1280.jpg" alt="Child-friendly illustration" class="floating-image" width="500"/>
+    </div>
+    <div class="registration-container">
+      <h1>ELLP</h1>
+      <h2>Cadastre Workshops!</h2>
+      <form [formGroup]="workshopForm" (ngSubmit)="onSubmit()">
+        <div>
+          <input id="name" type="text" formControlName="name"  placeholder="Nome:"/>
+          <div class="error-message" *ngIf="name?.invalid && name?.touched">
+            <small *ngIf="name?.errors?.['required']">Nome é obrigatório.</small>
+            <small *ngIf="name?.errors?.['minlength']">Minimo de 3 caracteres</small>
+          </div>
+        </div>
+        <div>
+          <input id="turma" type="text" formControlName="turma" placeholder="Turma:"/>
+        </div>
+        <div>
+          <label>Professores:</label>
+          <select id="professor" formControlName="professor" placeholder="Professor:">
+            <option value="" disabled selected hidden>Professor:</option>
+            <option *ngFor="let professor of professores" [ngValue]="professor">{{professor.nome}}</option>
+          </select>
+        </div>
+        <div>
+          <label>Alunos:</label>
+          <select id="alunos" formControlName="alunos" placeholder="Alunos:">
+            <option value="" disabled selected hidden>Alunos:</option>
+            <option *ngFor="let aluno of alunos" [ngValue]="aluno">{{aluno.nome}}</option>
+          </select>
+        </div>
+        <button type="submit">Cadastrar</button>
+      </form>
+      </div>
+    </body>
