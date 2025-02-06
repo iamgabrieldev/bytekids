@@ -44,4 +44,33 @@ public class PresencaService {
   public int getFrequenciaAluno(Long alunoId, Long workshopId) {
     return presencaRepository.countByAlunoAndWorkshop(alunoId, workshopId);
   }
+
+  public String gerarCertificadoHtml(Long alunoId, Long workshopId) {
+    var aluno = alunoRepository.findById(alunoId).orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
+    var workshop = workshopRepository.findById(workshopId).orElseThrow(() -> new RuntimeException("Workshop não encontrado"));
+
+    return """
+                <html>
+                <head>
+                    <title>Certificado de Conclusão</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+                        .certificado { border: 5px solid black; padding: 30px; display: inline-block; }
+                        h1 { color: darkblue; }
+                    </style>
+                </head>
+                <body>
+                    <div class='certificado'>
+                        <h1>Certificado de Conclusão</h1>
+                        <p>Certificamos que <strong>""" + aluno.getNome() + """
+        </strong> concluiu com êxito o workshop <strong>""" + workshop.getNome() + """
+                        </strong>.</p>
+                        <p>Data:\040""" + java.time.LocalDate.now() + """
+                        </p>
+                        <p>Assinatura: ______________________</p>
+                    </div>
+                </body>
+                </html>
+                """;
+  }
 }

@@ -28,4 +28,15 @@ public class PresencaController {
   public int getFrequenciaAluno(@RequestParam Long alunoId, @RequestParam Long workshopId) {
     return presencaService.getFrequenciaAluno(alunoId, workshopId);
   }
+
+  @GetMapping("/certificado")
+  public String gerarLinkCertificado(@RequestParam Long alunoId, @RequestParam Long workshopId) {
+    return "http://localhost:8080/api/presenca/certificado/" + alunoId + "/" + workshopId;
+  }
+
+  @GetMapping("/certificado/{alunoId}/{workshopId}")
+  public ResponseEntity<String> visualizarCertificado(@PathVariable Long alunoId, @PathVariable Long workshopId) {
+    String certificadoHtml = presencaService.gerarCertificadoHtml(alunoId, workshopId);
+    return ResponseEntity.ok().body(certificadoHtml);
+  }
 }
