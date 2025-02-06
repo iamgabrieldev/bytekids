@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class PresencaService {
@@ -50,27 +49,27 @@ public class PresencaService {
     var workshop = workshopRepository.findById(workshopId).orElseThrow(() -> new RuntimeException("Workshop não encontrado"));
 
     return """
-                <html>
-                <head>
-                    <title>Certificado de Conclusão</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
-                        .certificado { border: 5px solid black; padding: 30px; display: inline-block; }
-                        h1 { color: darkblue; }
-                    </style>
-                </head>
-                <body>
-                    <div class='certificado'>
-                        <h1>Certificado de Conclusão</h1>
-                        <p>Certificamos que <strong>""" + aluno.getNome() + """
+        <html>
+        <head>
+            <title>Certificado de Conclusão</title>
+            <style>
+                body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+                .certificado { border: 5px solid black; padding: 30px; display: inline-block; }
+                h1 { color: darkblue; }
+            </style>
+        </head>
+        <body>
+            <div class='certificado'>
+                <h1>Certificado de Conclusão</h1>
+                <p>Certificamos que <strong>""" + aluno.getNome() + """
         </strong> concluiu com êxito o workshop <strong>""" + workshop.getNome() + """
-                        </strong>.</p>
-                        <p>Data:\040""" + java.time.LocalDate.now() + """
-                        </p>
-                        <p>Assinatura: ______________________</p>
-                    </div>
-                </body>
-                </html>
-                """;
+        </strong>.</p>
+        <p>Data:\040""" + java.time.LocalDate.now() + """
+                </p>
+                <p>Assinatura: ______________________</p>
+            </div>
+        </body>
+        </html>
+        """;
   }
 }

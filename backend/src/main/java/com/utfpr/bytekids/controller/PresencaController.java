@@ -1,12 +1,9 @@
 package com.utfpr.bytekids.controller;
 
 import com.utfpr.bytekids.dto.PresencaDTO;
-import com.utfpr.bytekids.model.Presenca;
 import com.utfpr.bytekids.service.PresencaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/presenca")
