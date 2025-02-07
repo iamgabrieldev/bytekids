@@ -20,8 +20,12 @@ public class WorkshopController {
     }
 
     @PostMapping(path = "/cadastrar")
-    public ResponseEntity<Workshop> cadastrarWorkshop(@RequestBody Workshop workshop) {
-        Workshop novoWorkshop = workshopService.salvarWorkshop(workshop);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novoWorkshop);
+    public ResponseEntity<?> cadastrarWorkshop(@RequestBody Workshop workshop) {
+        try {
+            Workshop novoWorkshop = workshopService.salvarWorkshop(workshop);
+            return ResponseEntity.status(HttpStatus.CREATED).body(novoWorkshop);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"message\": \"" + e.getMessage() + "\"}");
+        }
     }
 }

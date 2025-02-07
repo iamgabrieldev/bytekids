@@ -1,6 +1,7 @@
 package com.utfpr.bytekids.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.utfpr.bytekids.model.Aluno;
 import com.utfpr.bytekids.model.Professor;
 import com.utfpr.bytekids.service.ProfessorService;
 import org.junit.jupiter.api.DisplayName;
@@ -12,7 +13,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -60,6 +66,39 @@ class ProfessorControllerTest {
         mvc.perform(post("/api/professores/cadastrar")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("Retorna lista de professores com conteúdo")
+    void listarAlunos_DeveRetornarListaDeAlunos() throws Exception {
+        // Criação de dois professores de exemplo
+        Professor professor1 = new Professor();
+        Professor professor2 = new Professor();
+
+        professor1.setNome("Professor 1");
+        professor2.setNome("Professor 2");
+
+        // Simulando que o serviço retorna esses alunos
+        when(professorService.listarProfessores()).thenReturn(Arrays.asList(professor1, professor2));
+
+        // Realizando a requisição GET e verificando o status 200 e os dados dos alunos
+        mvc.perform(get("/api/professores"))
+            .andExpect(status().isOk()) // Espera status 200
+            .andExpect(jsonPath("$.size()").value(2)) // Espera que a lista tenha 2 professores
+            .andExpect(jsonPath("$[0].nome").value("Professor 1")) // Verifica o nome do primeiro professor
+            .andExpect(jsonPath("$[1].nome").value("Professor 2")); // Verifica o nome do segundo professor
+    }
+
+    @Test
+    @DisplayName("Retorna lista vazia")
+    void listarAlunos_DeveRetornarListaVaziaQuandoNaoExistirAlunos() throws Exception {
+        // Simulando que o serviço retorna uma lista vazia
+        when(professorService.listarProfessores()).thenReturn(Collections.emptyList());
+
+        // Realizando a requisição GET e verificando o status 200 e que a lista está vazia
+        mvc.perform(get("/api/professores"))
+            .andExpect(status().isOk()) // Espera status 200
+            .andExpect(jsonPath("$.size()").value(0)); // Espera que a lista tenha 0 professor
     }
 
 }

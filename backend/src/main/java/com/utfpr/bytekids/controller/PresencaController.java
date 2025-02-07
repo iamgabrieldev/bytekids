@@ -17,8 +17,12 @@ public class PresencaController {
 
   @PostMapping("/registrar")
   public ResponseEntity<?> registrarFrequencia(@RequestBody PresencaDTO presencaDTO) {
-    presencaService.registrarPresenca(presencaDTO);
-    return ResponseEntity.status(201).body("{\"message\": \"Frequência registrada com sucesso!\"}");
+    try {
+      presencaService.registrarPresenca(presencaDTO);
+      return ResponseEntity.status(201).body("{\"message\": \"Frequência registrada com sucesso!\"}");
+    } catch (RuntimeException e) {
+      return ResponseEntity.status(500).body("{\"message\": \"" + e.getMessage() + "\"}");
+    }
   }
 
   @GetMapping("/visualizar")
@@ -33,7 +37,11 @@ public class PresencaController {
 
   @GetMapping("/certificado/{alunoId}/{workshopId}")
   public ResponseEntity<String> visualizarCertificado(@PathVariable Long alunoId, @PathVariable Long workshopId) {
-    String certificadoHtml = presencaService.gerarCertificadoHtml(alunoId, workshopId);
-    return ResponseEntity.ok().body(certificadoHtml);
+    try {
+      String certificadoHtml = presencaService.gerarCertificadoHtml(alunoId, workshopId);
+      return ResponseEntity.ok().body(certificadoHtml);
+    } catch (RuntimeException e) {
+      return ResponseEntity.status(500).body("{\"message\": \"" + e.getMessage() + "\"}");
+    }
   }
 }

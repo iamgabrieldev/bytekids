@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -30,7 +31,7 @@ class ProfessorLoginControllerTest {
         login.setUsername("professor1");
         login.setPasswordHash("hashedPassword"); // senha geralmente é armazenada como hash
 
-        Mockito.when(professorLoginService.cadastrarLogin(1L, "professor1", "senha123"))
+        when(professorLoginService.cadastrarLogin(1L, "professor1", "senha123"))
                 .thenReturn(login);
 
         mvc.perform(post("/api/login/cadastrar")
@@ -45,7 +46,7 @@ class ProfessorLoginControllerTest {
     @Test
     @DisplayName("Deveria devolver código HTTP 200 ao autenticar com sucesso")
     void autenticar_DeveriaRetornar200_QuandoAutenticacaoBemSucedida() throws Exception {
-        Mockito.when(professorLoginService.autenticar("professor1", "senha123"))
+        when(professorLoginService.autenticar("professor1", "senha123"))
                 .thenReturn(true);
 
         mvc.perform(post("/api/login/autenticar")
@@ -64,5 +65,54 @@ class ProfessorLoginControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    void autenticar_DeveRetornarSucessoQuandoUsuarioESenhaEstiveremCorretos() throws Exception {
+        // Dados do teste
+        String username = "professorA";
+        String password = "senha123";
 
+        // Simulando o comportamento do serviço de autenticação
+        when(professorLoginService.autenticar(username, password)).thenReturn(true);
+
+        // Realizando a requisição POST e verificando o status 200 e a mensagem de sucesso
+        mvc.perform(post("/api/login/autenticar")
+                .param("username", username)
+                .param("password", password))
+            .andExpect(status().isOk()) // Espera status 200
+            .andExpect(content().string("Autenticação bem-sucedida!")); // Mensagem de sucesso
+    }
+
+    @Test
+    void autenticar_DeveRetornarErroQuandoUsuarioNaoExistir() throws Exception {
+        // Dados do teste
+        String username = "usuarioInexistente";
+        String password = "senha123";
+
+        // Simulando que o serviço de autenticação retorna false, pois o usuário não existe
+        when(professorLoginService.autenticar(username, password)).thenReturn(false);
+
+        // Realizando a requisição POST e verificando o status 401 e a mensagem de erro
+        mvc.perform(post("/api/login/autenticar")
+                .param("username", username)
+                .param("password", password))
+            .andExpect(status().isUnauthorized()) // Espera status 401
+            .andExpect(content().string("Usuário ou senha inválidos.")); // Mensagem de erro
+    }
+
+    @Test
+    void autenticar_DeveRetornarErroQuandoSenhaEstiverIncorreta() throws Exception {
+        // Dados do teste
+        String username = "professorA";
+        String password = "senhaErrada";
+
+        // Simulando que o serviço de autenticação retorna false, pois a senha está incorreta
+        when(professorLoginService.autenticar(username, password)).thenReturn(false);
+
+        // Realizando a requisição POST e verificando o status 401 e a mensagem de erro
+        mvc.perform(post("/api/login/autenticar")
+                .param("username", username)
+                .param("password", password))
+            .andExpect(status().isUnauthorized()) // Espera status 401
+            .andExpect(content().string("Usuário ou senha inválidos.")); // Mensagem de erro
+    }
 }
