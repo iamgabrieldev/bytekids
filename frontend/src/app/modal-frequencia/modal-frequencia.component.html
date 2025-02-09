@@ -1,0 +1,15 @@
+<div class="modal-overlay" *ngIf="isVisible">
+    <div class="modal-content">
+        <button (click)="closeModal()">Fechar</button>
+      <h3>Visualizar Frequência</h3>
+      <!-- Select para escolher o aluno -->
+      <div *ngIf="workshop">
+        <div>
+            <label for="aluno">Aluno:</label>
+            <span>{{workshop.alunos[0].nome}}</span>
+        </div>
+        <label>Presenças:</label>
+        <span>{{frequencia}}</span>
+    </div>
+    </div>
+  </div>

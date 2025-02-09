@@ -1,9 +1,12 @@
 package com.utfpr.bytekids.service;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.utfpr.bytekids.model.Workshop;
 import com.utfpr.bytekids.repository.ProfessorRepository;
 import com.utfpr.bytekids.repository.WorkshopRepository;
-import org.springframework.stereotype.Service;
 
 @Service
 public class WorkshopService {
@@ -26,4 +29,16 @@ public class WorkshopService {
         }
         return workshopRepository.save(workshop);
     }
+
+    public List<Workshop> listarWorkshops() {
+        return workshopRepository.findAll();
+    }
+
+    public void deletarWorkshop(Long id) {
+        if (!workshopRepository.existsById(id)) {
+            throw new IllegalArgumentException("Workshop não encontrado.");
+        }
+        workshopRepository.deleteById(id);
+    }
+
 }

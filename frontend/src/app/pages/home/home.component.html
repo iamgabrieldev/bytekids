@@ -1,1 +1,23 @@
-<h1>Bem-vindo, Professor(a)!</h1>
+<body class="container">
+    <div class="image-container">
+        <div class="floating-image"></div>
+        <img src="https://cdn.pixabay.com/photo/2023/11/29/12/29/kid-8419485_1280.jpg" alt="Child-friendly illustration" class="floating-image" width="500"/>
+    </div>
+    <div class="registration-container">
+        <h1>ELLP</h1>
+        <h2>Bem-vindo ao mundo da informática!</h2>
+        <div class="container-cards">
+            <div class="card" *ngFor="let workshop of workshops">
+                <h3>{{workshop.nome}}</h3>
+                <p><strong>Turma:</strong> {{workshop.turma}}</p>
+                <p><strong>Professor:</strong> {{workshop.professor.nome}}</p>
+                <button (click)="openModal(workshop)">Registrar Frequência</button>
+                <button (click)="openModalFrequencia(workshop)">Ver Frequência</button>
+            </div>
+        </div>
+    </div>
+
+    <app-modal [isVisible]="isModalVisible" [workshop]="selectedWorkshop" (close)="closeModal()">
+    </app-modal>
+    <app-modal-frequencia [isVisible]="isModalFrequenciaVisible" [workshop]="selectedWorkshop" (close)="closeModalFrequencia()"></app-modal-frequencia>
+</body>

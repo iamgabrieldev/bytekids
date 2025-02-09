@@ -1,0 +1,17 @@
+<div class="modal-overlay" *ngIf="isVisible">
+    <div class="modal-content">
+        <button (click)="closeModal()">Fechar</button>
+      <h3>Registrar Frequência</h3>
+      <!-- Select para escolher o aluno -->
+      <div *ngIf="workshop">
+        <label for="aluno">Selecione o aluno:</label>
+        <select id="aluno">
+          <option *ngFor="let aluno of workshop.alunos" [value]="aluno">
+            {{ aluno.nome }}
+          </option>
+        </select>
+    </div>
+    <button class="botao" (click)="registerPresenca()">Registrar</button>
+  
+    </div>
+  </div>

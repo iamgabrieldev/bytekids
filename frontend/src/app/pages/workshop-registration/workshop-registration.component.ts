@@ -39,10 +39,10 @@ export class WorkshopRegistrationComponent {
     this.getProfessores();
     this.getAlunos();
   }
-
   onSubmit() {
     const selectedProfessor = this.workshopForm.value.professor;
-    const selectedAlunos = this.workshopForm.value.alunos;
+    let selectedAlunos = this.workshopForm.value.alunos;
+  
     const workshopData = {
       nome: this.workshopForm.value.name,
       turma: this.workshopForm.value.turma,
@@ -50,8 +50,8 @@ export class WorkshopRegistrationComponent {
         id: selectedAlunos.id,
         nome: selectedAlunos.nome,
         documento: selectedAlunos.documento,
-        workshop: selectedAlunos.workshop,
-        telefone: selectedAlunos.telefone
+        telefone: selectedAlunos.telefone,
+        workshop: selectedAlunos.workshop
       }],
       professor: {
         id: selectedProfessor.id,
@@ -60,10 +60,17 @@ export class WorkshopRegistrationComponent {
         telefone: selectedProfessor.telefone
       }
     };
-
+  
     this.workshopService.registerWorkshop(workshopData).subscribe({
       next: (response: any) => {
         alert('Workshop e login cadastrados com sucesso!');
+        selectedAlunos.workshop = {id: response.id};
+        this.workshopService.editAlunos(selectedAlunos).subscribe({
+          next: (response: any) => {
+            console.log(response);
+          },
+          error: (error: any) => { console.error(error); }
+        });
         this.router.navigate(['/student-registration']);             
       },
       error: (err) => {

@@ -1,0 +1,128 @@
+::ng-deep body {
+    margin: 0 !important;
+  }
+  
+  .container {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40vw;
+    height: 100vh;
+  }
+  
+  .floating-image {
+    animation: float 3s infinite ease-in-out;
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+  
+  .registration-container {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 59vw;
+    background-color: #f9fbe7;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    color: #F68D2E;
+    font-size: 50pt;
+  
+  }
+  
+  h2 {
+    font-size: 2rem;
+    color: #F68D2E;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+  }
+  
+  label {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    color: #283593;
+  }
+  
+  input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 2px solid #026CB8;
+    font-size: 1rem;
+    width: 400px;
+  }
+  
+  input.invalid {
+    border-color: #f44336;
+  }
+  
+  .error-message {
+    color: #f44336;
+    font-size: 0.9rem;
+  }
+  
+  button {
+    padding: 8px 16px;
+    font-size: 1rem;
+    color: white;
+    margin-top: 20px;
+    width: 300px;
+    background-color: #F68D2E;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #e27a1f;
+  }
+  
+.container-cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.card {
+  cursor: pointer;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  width: 300px;
+  text-align: center;
+
+}
