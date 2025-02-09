@@ -18,6 +18,14 @@ import lombok.Data;
 @Data
 public class Workshop {
 
+    public Workshop() {
+    }
+
+    public Workshop(Long id, String turma) {
+        this.id = id;
+        this.turma = turma;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

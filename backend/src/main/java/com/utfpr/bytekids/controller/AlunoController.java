@@ -20,33 +20,43 @@ import com.utfpr.bytekids.service.AlunoService;
 @RequestMapping("/api/alunos")
 public class AlunoController {
 
-    private final AlunoService alunoService;
+  private final AlunoService alunoService;
 
-    public AlunoController(AlunoService alunoService) {
-        this.alunoService = alunoService;
-    }
+  public AlunoController(AlunoService alunoService) {
+    this.alunoService = alunoService;
+  }
 
-    @PostMapping(path="/cadastrar")
-    public ResponseEntity<Aluno> cadastrarAluno(@RequestBody Aluno aluno) {
-        Aluno novoAluno = alunoService.salvarAluno(aluno);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novoAluno);
-    }
+  @PostMapping(path = "/cadastrar")
+  public ResponseEntity<Aluno> cadastrarAluno(@RequestBody Aluno aluno) {
+    Aluno novoAluno = alunoService.salvarAluno(aluno);
+    return ResponseEntity.status(HttpStatus.CREATED).body(novoAluno);
+  }
 
-    @GetMapping()
-    public ResponseEntity<List<Aluno>> listarAlunos(){
-        List<Aluno> alunos = alunoService.listarAlunos();
-        return ResponseEntity.status(HttpStatus.OK).body(alunos);
-    }
+  @GetMapping()
+  public ResponseEntity<List<Aluno>> listarAlunos() {
+    List<Aluno> alunos = alunoService.listarAlunos();
+    return ResponseEntity.status(HttpStatus.OK).body(alunos);
+  }
 
-    @DeleteMapping(path="/excluir/{id}")
-    public ResponseEntity<Void> excluirAluno(@PathVariable Long id) {
-        alunoService.excluirAluno(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+  @DeleteMapping(path = "/excluir/{id}")
+  public ResponseEntity<?> excluirAluno(@PathVariable Long id) {
+    try {
+      alunoService.excluirAluno(id);
+      return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    } catch (IllegalArgumentException e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+          .body("{\"message\": \"" + e.getMessage() + "\"}");
     }
+  }
 
-    @PutMapping(path="/alterar-workshop")
-    public ResponseEntity<Aluno> alterarWorkshop(@RequestBody Aluno aluno) {
-        Aluno alunoAlterado = alunoService.alterarWorkshop(aluno);
-        return ResponseEntity.status(HttpStatus.OK).body(alunoAlterado);
+  @PutMapping(path = "/alterar-workshop")
+  public ResponseEntity<?> alterarWorkshop(@RequestBody Aluno aluno) {
+    try {
+      Aluno alunoAlterado = alunoService.alterarWorkshop(aluno);
+      return ResponseEntity.status(HttpStatus.OK).body(alunoAlterado);
+    } catch (IllegalArgumentException e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+          .body("{\"message\": \"" + e.getMessage() + "\"}");
     }
+  }
 }

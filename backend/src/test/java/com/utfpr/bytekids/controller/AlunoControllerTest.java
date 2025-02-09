@@ -1,9 +1,11 @@
 package com.utfpr.bytekids.controller;
 
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.utfpr.bytekids.model.Aluno;
+import com.utfpr.bytekids.model.Workshop;
 import com.utfpr.bytekids.service.AlunoService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,9 +20,13 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @WebMvcTest(AlunoController.class)
 class AlunoControllerTest {
@@ -99,6 +105,97 @@ class AlunoControllerTest {
         mvc.perform(get("/api/alunos"))
             .andExpect(status().isOk()) // Espera status 200
             .andExpect(jsonPath("$.size()").value(0)); // Espera que a lista tenha 0 alunos
+    }
+
+    @Test
+    void excluirAluno_DeveRetornarNoContentQuandoSucesso() throws Exception {
+        Long alunoId = 1L;
+
+        doNothing().when(alunoService).excluirAluno(alunoId);
+
+        mvc.perform(delete("/api/alunos/excluir/{id}", alunoId))
+            .andExpect(status().isNoContent()); // 204 No Content
+    }
+
+    @Test
+    void excluirAluno_DeveRetornarBadRequestQuandoAlunoNaoExistir() throws Exception {
+        Long alunoId = 99L;
+
+        doThrow(new IllegalArgumentException("Aluno não encontrado."))
+            .when(alunoService).excluirAluno(alunoId);
+
+        mvc.perform(delete("/api/alunos/excluir/{id}", alunoId))
+            .andExpect(status().isBadRequest()) // 400 Bad Request
+            .andExpect(content().json("{\"message\": \"Aluno não encontrado.\"}"));
+    }
+
+    @Test
+    void alterarWorkshop_DeveRetornarOkQuandoSucesso() throws Exception {
+        Aluno aluno = new Aluno(1L, "João", new Workshop(2L, "Workshop A"));
+
+        when(alunoService.alterarWorkshop(any(Aluno.class))).thenReturn(aluno);
+
+        mvc.perform(put("/api/alunos/alterar-workshop")
+                .contentType(APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(aluno)))
+            .andExpect(status().isOk()) // 200 OK
+            .andExpect(content().json(objectMapper.writeValueAsString(aluno)));
+    }
+
+    @Test
+    void alterarWorkshop_DeveRetornarBadRequestQuandoWorkshopNaoInformado() throws Exception {
+        Aluno aluno = new Aluno(1L, "João", null);
+
+        doThrow(new IllegalArgumentException("Workshop não informado."))
+            .when(alunoService).alterarWorkshop(any(Aluno.class));
+
+        mvc.perform(put("/api/alunos/alterar-workshop")
+                .contentType(APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(aluno)))
+            .andExpect(status().isBadRequest()) // 400 Bad Request
+            .andExpect(content().json("{\"message\": \"Workshop não informado.\"}"));
+    }
+
+    @Test
+    void alterarWorkshop_DeveRetornarBadRequestQuandoIdAlunoNaoInformado() throws Exception {
+        Aluno aluno = new Aluno(null, "João", new Workshop(2L, "Workshop A"));
+
+        doThrow(new IllegalArgumentException("Id do aluno não informado."))
+            .when(alunoService).alterarWorkshop(any(Aluno.class));
+
+        mvc.perform(put("/api/alunos/alterar-workshop")
+                .contentType(APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(aluno)))
+            .andExpect(status().isBadRequest()) // 400 Bad Request
+            .andExpect(content().json("{\"message\": \"Id do aluno não informado.\"}"));
+    }
+
+    @Test
+    void alterarWorkshop_DeveRetornarBadRequestQuandoIdWorkshopNaoInformado() throws Exception {
+        Aluno aluno = new Aluno(1L, "João", new Workshop(null, "Workshop A"));
+
+        doThrow(new IllegalArgumentException("Id do workshop não informado."))
+            .when(alunoService).alterarWorkshop(any(Aluno.class));
+
+        mvc.perform(put("/api/alunos/alterar-workshop")
+                .contentType(APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(aluno)))
+            .andExpect(status().isBadRequest()) // 400 Bad Request
+            .andExpect(content().json("{\"message\": \"Id do workshop não informado.\"}"));
+    }
+
+    @Test
+    void alterarWorkshop_DeveRetornarBadRequestQuandoAlunoNaoExistir() throws Exception {
+        Aluno aluno = new Aluno(99L, "João", new Workshop(2L, "Workshop A"));
+
+        doThrow(new IllegalArgumentException("Aluno não encontrado."))
+            .when(alunoService).alterarWorkshop(any(Aluno.class));
+
+        mvc.perform(put("/api/alunos/alterar-workshop")
+                .contentType(APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(aluno)))
+            .andExpect(status().isBadRequest()) // 400 Bad Request
+            .andExpect(content().json("{\"message\": \"Aluno não encontrado.\"}"));
     }
 
 }

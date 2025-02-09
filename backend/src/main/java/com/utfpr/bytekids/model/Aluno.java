@@ -14,6 +14,14 @@ import lombok.Data;
 @Entity
 @Data
 public class Aluno {
+    public Aluno() {
+    }
+
+    public Aluno(Long id, String nome, Workshop workshop) {
+        this.id = id;
+        this.nome = nome;
+        this.workshop = workshop;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

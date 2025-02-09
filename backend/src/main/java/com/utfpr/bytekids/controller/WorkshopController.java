@@ -27,9 +27,6 @@ public class WorkshopController {
     @PostMapping(path = "/cadastrar")
     public ResponseEntity<?> cadastrarWorkshop(@RequestBody Workshop workshop) {
         try {
-            for (Aluno aluno : workshop.getAlunos()) {
-                aluno.setWorkshop(workshop);
-            }
             Workshop novoWorkshop = workshopService.salvarWorkshop(workshop);
             return ResponseEntity.status(HttpStatus.CREATED).body(novoWorkshop);
         } catch (IllegalArgumentException e) {
