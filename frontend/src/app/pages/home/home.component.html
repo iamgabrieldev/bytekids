@@ -4,12 +4,12 @@
         <img src="https://cdn.pixabay.com/photo/2023/11/29/12/29/kid-8419485_1280.jpg" alt="Child-friendly illustration" class="floating-image" width="500"/>
     </div>
     <div class="registration-container">
-        <div class="button-certification"><button  [routerLink]="['/certification']">Emitir Certificados</button></div>
         <h1>ELLP</h1>
         <h2>Bem-vindo ao mundo da informática!</h2>
         <div style="display: flex; justify-content: space-around; gap: 16px;">
             <a [routerLink]="['/student-registration']"><button>Cadastro de Alunos</button></a>
             <a [routerLink]="['/workshop-registration']"><button>Cadastro de workshops</button></a>
+            <a [routerLink]="['/certification']"><button>Emitir Certificados</button></a>
         </div>
         <div class="container-cards">
             <div class="card" *ngFor="let workshop of workshops">
