@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModalFrequenciaComponent } from './modal-frequencia.component';
+import { ModalFrequenciaComponent } from '../modal-frequencia/modal-frequencia.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     ModalFrequenciaComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
   ],
   exports: [
-    ModalFrequenciaComponent // Exporte o ModalComponent
+    ModalFrequenciaComponent
   ]
 })
 export class ModalFrequenciaModule { }

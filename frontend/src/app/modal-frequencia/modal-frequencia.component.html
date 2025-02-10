@@ -5,10 +5,16 @@
       <!-- Select para escolher o aluno -->
       <div *ngIf="workshop">
         <div>
-            <label for="aluno">Aluno:</label>
-            <span>{{workshop.alunos[0].nome}}</span>
+          <label for="aluno">Selecione o aluno:</label>
+          <form [formGroup]="form">
+            <select formControlName="selectedAluno" id="aluno">
+              <option *ngFor="let aluno of workshop.alunos" [ngValue]="aluno">
+                {{ aluno.nome }}
+              </option>
+            </select>
+          </form>
         </div>
-        <label>Presenças:</label>
+        <label>Presenças: </label>
         <span>{{frequencia}}</span>
     </div>
     </div>
