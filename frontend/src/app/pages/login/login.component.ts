@@ -37,7 +37,7 @@ export class LoginComponent {
         next: (response: any) => { 
           if(response === 'Autenticação bem-sucedida!'){
             alert('Autenticação bem-sucedida!')
-            this.router.navigate(['/student-registration']); 
+            this.router.navigate(['/home']); 
           }
         },
         error: () => {

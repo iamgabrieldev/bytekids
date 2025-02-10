@@ -3,7 +3,7 @@
       <img src="https://cdn.pixabay.com/photo/2023/11/29/12/29/kid-8419485_1280.jpg" alt="Child-friendly illustration" class="floating-image" width="500"/>
     </div>
     <div class="registration-container">
-      <h1>ELLP</h1>
+      <a [routerLink]="['/home']"><h1>ELLP</h1></a>
       <h2>Cadastre Workshops!</h2>
       <form [formGroup]="workshopForm" (ngSubmit)="onSubmit()">
         <div>
