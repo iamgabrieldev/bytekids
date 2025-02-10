@@ -15,5 +15,11 @@ module.exports = {
       '!src/app/app.routes*',
       '!src/app/pages/home/home*',
     ],
+    coveragePathIgnorePatterns: [
+      "/node_modules/", 
+      "/src/app/pages*",
+      "/src/app/modal*",
+      "/src/app/modal-frequencia*",
+    ],
   };
   
