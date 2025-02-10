@@ -62,16 +62,17 @@ form {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 80%;
+    width: 100%;
 }
   
-input {
+select {
     padding: 10px;
     margin-bottom: 15px;
     border-radius: 8px;
     border: 2px solid #026CB8;
     font-size: 1rem;
     width: 400px;
+    height: 40px;
 }
   
 .error-message {

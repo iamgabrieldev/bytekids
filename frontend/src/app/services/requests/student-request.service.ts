@@ -14,10 +14,10 @@ export class StudentRequestService {
   registerStudent(studentData: any): Observable<any> {
     const mappedStudentData = {
       id: 0,
-      nome: studentData.name,        
-      documento: studentData.document, 
-      telefone: studentData.phone, 
-      workshop: null
+      nome: studentData.nome,        
+      documento: studentData.documento, 
+      telefone: studentData.telefone, 
+      workshop: studentData.workshop
     };
     return this.http.post(`${this.apiUrl}/cadastrar`, mappedStudentData);
   }

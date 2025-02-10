@@ -25,7 +25,7 @@ export class StudentRegistrationComponent {
       name: ['', [Validators.required, Validators.minLength(3)]],
       document: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
       phone: [''],
-      workshop: [null],
+      workshop: [''],
     });
   }
 
@@ -35,14 +35,26 @@ export class StudentRegistrationComponent {
 
   onSubmit() {
     if (this.studentForm.valid) {
-      debugger
-      this.studentService.registerStudent(this.studentForm.value).subscribe({
+      const selectedWorkshop = this.studentForm.value.workshop;
+
+      const studentData = {
+        id: 0,
+        nome: this.studentForm.value.name,        
+        documento: this.studentForm.value.document, 
+        telefone: this.studentForm.value.phone, 
+        workshop: {
+          id: selectedWorkshop,
+        },
+      }
+
+      this.studentService.registerStudent(studentData).subscribe({
         next: () => {
           alert('Estudante cadastrado com sucesso!');
           this.studentForm.reset();
         },
-        error: () => {
+        error: (error) => {
           alert('Error ao registrar estudante, tente novamente!');
+          console.log(error);
         },
       });
     } else {

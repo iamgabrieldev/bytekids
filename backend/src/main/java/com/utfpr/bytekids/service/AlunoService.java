@@ -2,6 +2,8 @@ package com.utfpr.bytekids.service;
 
 import java.util.List;
 
+import com.utfpr.bytekids.model.Workshop;
+import com.utfpr.bytekids.repository.WorkshopRepository;
 import org.springframework.stereotype.Service;
 
 import com.utfpr.bytekids.model.Aluno;
@@ -11,12 +13,17 @@ import com.utfpr.bytekids.repository.AlunoRepository;
 public class AlunoService {
 
     private final AlunoRepository alunoRepository;
+    private final WorkshopRepository workshopRepository;
 
-    public AlunoService(AlunoRepository alunoRepository) {
+    public AlunoService(AlunoRepository alunoRepository, WorkshopRepository workshopRepository) {
         this.alunoRepository = alunoRepository;
+        this.workshopRepository = workshopRepository;
     }
 
     public Aluno salvarAluno(Aluno aluno) {
+        Workshop workshop = workshopRepository.findById(aluno.getWorkshop().getId())
+            .orElseThrow(() -> new RuntimeException("Workshop não encontrado"));
+
         if (alunoRepository.existsByDocumento(aluno.getDocumento())) {
             throw new IllegalArgumentException("Aluno já cadastrado.");
         }

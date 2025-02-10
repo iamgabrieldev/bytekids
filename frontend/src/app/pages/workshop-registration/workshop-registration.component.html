@@ -17,8 +17,7 @@
           <input id="turma" type="text" formControlName="turma" placeholder="Turma:"/>
         </div>
         <div>
-          <label>Professores:</label>
-          <select id="professor" formControlName="professor" placeholder="Professor:">
+          <select id="professor" formControlName="professor" placeholder="Professor">
             <option value="" disabled selected hidden>Professor:</option>
             <option *ngFor="let professor of professores" [ngValue]="professor">{{professor.nome}}</option>
           </select>

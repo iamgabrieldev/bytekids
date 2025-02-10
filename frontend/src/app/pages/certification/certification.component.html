@@ -4,28 +4,24 @@
       <img src="https://cdn.pixabay.com/photo/2023/11/29/12/29/kid-8419485_1280.jpg" alt="Child-friendly illustration" class="floating-image" width="500"/>
     </div>
     <div class="registration-container">
-      <h1>ELLP</h1>
+      <a [routerLink]="['/home']"><h1>ELLP</h1></a>
       <h2>Geração de Certificado</h2>
-      <form (ngSubmit)="verificarPresenca()">
+      <form [formGroup]="certificationForm" (ngSubmit)="verificarPresenca()">
         <div>
-          <input
-            id="alunoId"
-            type="number"
-            placeholder="ID do Aluno"
-            [(ngModel)]="alunoId"
-            name="alunoId"
-            required
-          />
+          <select id="aluno" formControlName="aluno">
+            <option value="" disabled selected>Selecione um aluno</option>
+            <option *ngFor="let aluno of alunos" [value]="aluno.id">
+              {{ aluno.nome }}
+            </option>
+          </select>
         </div>
         <div>
-          <input
-            id="workshopId"
-            type="number"
-            placeholder="ID do Workshop"
-            [(ngModel)]="workshopId"
-            name="workshopId"
-            required
-          />
+          <select id="workshop" formControlName="workshop">
+            <option value="" disabled selected>Selecione um workshop</option>
+            <option *ngFor="let workshop of workshops" [value]="workshop.id">
+              {{ workshop.nome }}
+            </option>
+          </select>
         </div>
         <button type="submit">Gerar Certificado</button>
       </form>
