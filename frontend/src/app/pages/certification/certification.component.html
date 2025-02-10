@@ -1,0 +1,38 @@
+<body class="container">
+    <div class="image-container">
+      <div class="floating-image"></div>
+      <img src="https://cdn.pixabay.com/photo/2023/11/29/12/29/kid-8419485_1280.jpg" alt="Child-friendly illustration" class="floating-image" width="500"/>
+    </div>
+    <div class="registration-container">
+      <h1>ELLP</h1>
+      <h2>Geração de Certificado</h2>
+      <form (ngSubmit)="verificarPresenca()">
+        <div>
+          <input
+            id="alunoId"
+            type="number"
+            placeholder="ID do Aluno"
+            [(ngModel)]="alunoId"
+            name="alunoId"
+            required
+          />
+        </div>
+        <div>
+          <input
+            id="workshopId"
+            type="number"
+            placeholder="ID do Workshop"
+            [(ngModel)]="workshopId"
+            name="workshopId"
+            required
+          />
+        </div>
+        <button type="submit">Gerar Certificado</button>
+      </form>
+      <div *ngIf="mensagem" class="error-message">{{ mensagem }}</div>
+      <div *ngIf="certificadoLink">
+        <a [href]="certificadoLink" target="_blank">Visualizar Certificado</a>
+      </div>
+    </div>
+  </body>
+  

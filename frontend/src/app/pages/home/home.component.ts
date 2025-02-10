@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { WorkshopRequestService } from '../../services/requests/workshop-request.service';
 import { ModalModule } from '../../modal/modal.module';
 import { ModalFrequenciaComponent } from '../../modal-frequencia/modal-frequencia.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +12,9 @@ import { ModalFrequenciaComponent } from '../../modal-frequencia/modal-frequenci
   imports: [
     CommonModule,
     ModalModule,
-    ModalFrequenciaComponent
+    ModalFrequenciaComponent,
+    ReactiveFormsModule,
+    RouterModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'

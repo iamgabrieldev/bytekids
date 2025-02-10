@@ -5,6 +5,7 @@ import { TeacherRegistrationComponent } from './pages/teacher-registration/teach
 import { StudentRegistrationComponent } from './pages/student-registration/student-registration.component';
 import { HomeComponent } from './pages/home/home.component';
 import { WorkshopRegistrationComponent } from './pages/workshop-registration/workshop-registration.component';
+import { CertificationComponent } from './pages/certification/certification.component';
 
 export const appRoutes: Routes = [
   { path: '', redirectTo: '/teacher-registration', pathMatch: 'full' },
@@ -12,5 +13,7 @@ export const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'student-registration', component: StudentRegistrationComponent },
   { path: 'teacher-registration', component: TeacherRegistrationComponent },
-  { path: 'workshop-registration', component: WorkshopRegistrationComponent}
+  { path: 'workshop-registration', component: WorkshopRegistrationComponent},
+  { path: 'certification', component: CertificationComponent}
+
 ];
