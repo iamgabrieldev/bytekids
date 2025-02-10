@@ -4,7 +4,7 @@ import { WorkshopRequestService } from '../../services/requests/workshop-request
 import { ModalModule } from '../../modal/modal.module';
 import { ModalFrequenciaComponent } from '../../modal-frequencia/modal-frequencia.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -46,7 +46,8 @@ export class HomeComponent {
     this.selectedWorkshop = null;
   }
 
-  constructor(private workshopService: WorkshopRequestService) { }
+
+  constructor(private workshopService: WorkshopRequestService, private router: Router) { }
 
   ngOnInit(): void {
     this.getWorkspaces();

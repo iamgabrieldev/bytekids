@@ -7,6 +7,10 @@
         <div class="button-certification"><button  [routerLink]="['/certification']">Emitir Certificados</button></div>
         <h1>ELLP</h1>
         <h2>Bem-vindo ao mundo da informática!</h2>
+        <div style="display: flex; justify-content: space-around; gap: 16px;">
+            <a [routerLink]="['/student-registration']"><button>Cadastro de Alunos</button></a>
+            <a [routerLink]="['/workshop-registration']"><button>Cadastro de workshops</button></a>
+        </div>
         <div class="container-cards">
             <div class="card" *ngFor="let workshop of workshops">
                 <h3>{{workshop.nome}}</h3>
