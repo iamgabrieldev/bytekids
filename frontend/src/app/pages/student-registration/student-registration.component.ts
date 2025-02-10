@@ -1,3 +1,4 @@
+import { WorkshopRequestService } from './../../services/requests/workshop-request.service';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -17,8 +18,9 @@ import { RouterModule } from '@angular/router';
 })
 export class StudentRegistrationComponent {
   studentForm: FormGroup;
+  workshops!: any;
 
-  constructor(private fb: FormBuilder, private studentService: StudentRequestService) {
+  constructor(private fb: FormBuilder, private studentService: StudentRequestService, private workshopService: WorkshopRequestService) {
     this.studentForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       document: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
@@ -27,8 +29,13 @@ export class StudentRegistrationComponent {
     });
   }
 
+  ngOnInit() {
+    this.getWorkshops(); 
+  }
+
   onSubmit() {
     if (this.studentForm.valid) {
+      debugger
       this.studentService.registerStudent(this.studentForm.value).subscribe({
         next: () => {
           alert('Estudante cadastrado com sucesso!');
@@ -41,6 +48,17 @@ export class StudentRegistrationComponent {
     } else {
       alert('Por favor, preencha os campos corretamente!');
     }
+  }
+
+  getWorkshops() {
+    this.workshopService.getWorkshops().subscribe(
+      (response: any) => {
+        this.workshops = response;
+      },
+      (error: any) => {
+        console.error('Erro ao recuperar workshops', error);
+      }
+    );
   }
 
   get name() {

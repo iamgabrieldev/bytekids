@@ -45,6 +45,14 @@
           <small *ngIf="phone?.errors?.['pattern']">Entre com um número de telefone válido</small>
         </div>
       </div>
+      <div>
+        <select id="workshop" formControlName="workshop">
+          <option value="" disabled selected>Selecione um workshop</option>
+          <option *ngFor="let workshop of workshops" [value]="workshop.id">
+            {{ workshop.nome }}
+          </option>
+        </select>
+      </div>
       <button type="submit" [disabled]="studentForm.invalid">Cadastrar</button>
     </form>
     <p>Deseja sair da conta? <a [routerLink]="['/login']">Clique aqui para deslogar.</a></p>

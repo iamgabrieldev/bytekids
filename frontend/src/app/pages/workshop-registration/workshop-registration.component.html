@@ -23,13 +23,6 @@
             <option *ngFor="let professor of professores" [ngValue]="professor">{{professor.nome}}</option>
           </select>
         </div>
-        <div>
-          <label>Alunos:</label>
-          <select id="alunos" formControlName="alunos" placeholder="Alunos:">
-            <option value="" disabled selected hidden>Alunos:</option>
-            <option *ngFor="let aluno of alunos" [ngValue]="aluno">{{aluno.nome}}</option>
-          </select>
-        </div>
         <button type="submit">Cadastrar</button>
       </form>
       </div>

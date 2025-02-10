@@ -8,7 +8,7 @@ import { WorkshopRegistrationComponent } from './pages/workshop-registration/wor
 import { CertificationComponent } from './pages/certification/certification.component';
 
 export const appRoutes: Routes = [
-  { path: '', redirectTo: '/teacher-registration', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent },
   { path: 'student-registration', component: StudentRegistrationComponent },

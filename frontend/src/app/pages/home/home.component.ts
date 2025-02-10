@@ -17,14 +17,31 @@ import { Router, RouterModule } from '@angular/router';
     RouterModule
   ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
   workshops: any[] = [];
-
   isModalVisible: boolean = false;
   isModalFrequenciaVisible: boolean = false;
   selectedWorkshop: any = null;
+
+  constructor(private workshopService: WorkshopRequestService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.getWorkshops();
+  }
+
+  getWorkshops() {
+    this.workshopService.getWorkshops().subscribe({
+      next: (workshops) => {
+        this.workshops = workshops;
+        console.log(workshops);
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
 
   openModalFrequencia(workshop: any) {
     this.selectedWorkshop = workshop;
@@ -44,24 +61,5 @@ export class HomeComponent {
   closeModal() {
     this.isModalVisible = false;
     this.selectedWorkshop = null;
-  }
-
-
-  constructor(private workshopService: WorkshopRequestService, private router: Router) { }
-
-  ngOnInit(): void {
-    this.getWorkspaces();
-  }
-
-  getWorkspaces() {
-    this.workshopService.getWorkshops().subscribe({
-      next: (workshops) => {
-        this.workshops = workshops;
-        console.log(workshops);
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    });
   }
 }

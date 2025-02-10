@@ -7,25 +7,29 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './modal-frequencia.component.html',
-  styleUrl: './modal-frequencia.component.scss'
+  styleUrls: ['./modal-frequencia.component.scss']
 })
 export class ModalFrequenciaComponent implements OnInit, OnChanges {
   @Input() isVisible: boolean = false;
   @Input() workshop: any = null;
   @Output() close = new EventEmitter<void>();
-  frequencia = 0;
+  frequencia: number = 0;
 
   constructor(private workshopService: WorkshopRequestService) {}
 
   ngOnInit() {
-    if (this.workshop) {
+    if (this.workshop && this.workshop.alunos && this.workshop.alunos.length > 0) {
       this.getFrequenciaAluno(this.workshop.alunos[0].id, this.workshop.id);
     }
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['workshop'] && this.workshop) {
-      this.getFrequenciaAluno(this.workshop.alunos[0].id, this.workshop.id);
+      if (this.workshop.alunos && this.workshop.alunos.length > 0) {
+        this.getFrequenciaAluno(this.workshop.alunos[0].id, this.workshop.id);
+      } else {
+        this.frequencia = 0;
+      }
     }
   }
 
@@ -33,7 +37,6 @@ export class ModalFrequenciaComponent implements OnInit, OnChanges {
     this.workshopService.getFrequenciaAluno(alunoId, workshopId).subscribe({
       next: (frequencia) => {
         this.frequencia = frequencia;
-        console.log("oi" + frequencia);
       },
       error: (err) => {
         console.log(err);
