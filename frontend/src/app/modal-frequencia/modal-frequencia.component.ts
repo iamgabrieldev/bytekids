@@ -14,7 +14,7 @@ export class ModalFrequenciaComponent implements OnInit {
   @Input() isVisible: boolean = false;
   @Input() workshop: any = null;
   @Output() close = new EventEmitter<void>();
-  frequencia: number = 0;
+  frequencia: string = "Não";
   form: FormGroup;
 
   constructor(private fb: FormBuilder, private workshopService: WorkshopRequestService) {
@@ -38,7 +38,9 @@ export class ModalFrequenciaComponent implements OnInit {
   getFrequenciaAluno(alunoId: number, workshopId: number) {
     this.workshopService.getFrequenciaAluno(alunoId, workshopId).subscribe({
       next: (frequencia) => {
-        this.frequencia = frequencia;
+        if (frequencia > 0) {
+          this.frequencia = "Sim";
+        }
       },
       error: (err) => {
         console.log(err);
@@ -48,7 +50,7 @@ export class ModalFrequenciaComponent implements OnInit {
 
   closeModal() {
     this.isVisible = false;
-    this.frequencia = 0;
+    this.frequencia = "Não";
     this.close.emit();
   }
 }

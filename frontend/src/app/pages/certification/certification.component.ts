@@ -38,17 +38,15 @@ export class CertificationComponent {
     this.getAlunos();
   }
   verificarPresenca(): void {
-    console.log(this.certificationForm.value.aluno);
-    console.log(this.certificationForm.value.workshop);
     this.certificateService.getFrequencia(this.certificationForm.value.aluno, this.certificationForm.value.workshop).subscribe(frequencia => {
-      if (frequencia >= 15) {
+      if (frequencia > 0) {
         this.gerarCertificado();
       } else {
-        this.mensagem = `Frequência insuficiente. Você tem ${frequencia} presença(s).`;
+        this.mensagem = `Aluno ausente.`;
         this.certificadoLink = '';
       }
     }, error => {
-      this.mensagem = 'Erro ao verificar a frequência.';
+      this.mensagem = 'Erro ao gerar certificado.';
       console.log(error);
     });
   }
