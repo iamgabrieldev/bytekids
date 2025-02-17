@@ -4,7 +4,7 @@
       <img src="https://cdn.pixabay.com/photo/2023/11/29/12/29/kid-8419485_1280.jpg" alt="Child-friendly illustration" class="floating-image" width="500"/>
     </div>
     <div class="registration-container">
-      <a [routerLink]="['/home']"><h1>ELLP</h1></a>
+      <a><h1 [routerLink]="['/home']">ELLP</h1></a>
       <h2>Geração de Certificado</h2>
       <form [formGroup]="certificationForm" (ngSubmit)="verificarPresenca()">
         <div>
@@ -18,7 +18,7 @@
         <div>
           <select id="workshop" formControlName="workshop">
             <option value="" disabled selected>Selecione um workshop</option>
-            <option *ngFor="let workshop of workshops" [value]="workshop.id">
+            <option *ngFor="let workshop of workshopsFiltrados" [value]="workshop.id">
               {{ workshop.nome }}
             </option>
           </select>

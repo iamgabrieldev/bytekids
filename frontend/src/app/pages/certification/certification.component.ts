@@ -25,6 +25,7 @@ export class CertificationComponent {
   certificadoLink!: string;
   mensagem!: string;
   certificationForm!: FormGroup;
+  workshopsFiltrados!: any;
 
   constructor(private fb: FormBuilder, private certificateService: CertificationRequestService, private workshopService: WorkshopRequestService) {
     this.certificationForm = this.fb.group({
@@ -63,7 +64,19 @@ export class CertificationComponent {
   getWorkshops() {
     this.workshopService.getWorkshops().subscribe(
       (response: any) => {
-        this.workshops = response;
+        this.workshops = response; 
+        this.workshopsFiltrados = [];
+  
+        for (let i = 0; i < this.workshops.length; i++) {
+          let workshop = this.workshops[i];
+  
+          for (let j = 0; j < workshop.alunos.length; j++) {
+            if (workshop.alunos[j].id === parseInt(this.certificationForm.value.aluno)) {
+              console.log("entrei aqui");
+              this.workshopsFiltrados.push(workshop);
+            }
+          }
+        }
       },
       (error: any) => {
         console.error('Erro ao recuperar workshops', error);
